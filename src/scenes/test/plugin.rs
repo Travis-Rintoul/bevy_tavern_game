@@ -57,14 +57,17 @@ pub fn setup(
         })),
     ));
 
-    commands.spawn(StoveDeviceBundle::default()).insert((
-        Transform::from_xyz(-5.0, 1.0, -5.0),
-        Mesh3d(meshes.add(Cuboid::new(2.0, 2.0, 2.0))),
-        MeshMaterial3d(materials.add(StandardMaterial {
-            base_color: Color::srgb(0.0, 0.0, 0.6),
-            ..default()
-        })),
-    ));
+    commands
+        .spawn(StoveDeviceBundle::default())
+        .insert((
+            Transform::from_xyz(-5.0, 1.0, -5.0),
+            Mesh3d(meshes.add(Cuboid::new(2.0, 2.0, 2.0))),
+            MeshMaterial3d(materials.add(StandardMaterial {
+                base_color: Color::srgb(0.0, 0.0, 0.6),
+                ..default()
+            })),
+        ))
+        .with_children(|parent| {});
 
     ui_state.set(UIState::Exploration);
 }
