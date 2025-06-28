@@ -1,27 +1,52 @@
 {
-  "Bevy Plugin Template": {
-    "prefix": "bevyplugin",
-    "body": [
-      "use bevy::prelude::*;",
-      "",
-      "pub struct ${1:MyPlugin};",
-      "",
-      "impl Plugin for $1 {",
-      "    fn build(&self, app: &mut App) {",
-      "        app",
-      "            .add_system(${2:my_system})",
-      "            .add_startup_system(${3:setup});",
-      "    }",
-      "}",
-      "",
-      "fn ${3:setup}(mut commands: Commands) {",
-      "    // setup code",
-      "}",
-      "",
-      "fn ${2:my_system}() {",
-      "    // system logic",
-      "}"
-    ],
-    "description": "Bevy Plugin Boilerplate"
-  }
+	"Bevy Plugin Template": {
+		"prefix": "bevyplugin",
+		"body": [
+			"use bevy::prelude::*;",
+			"",
+			"pub struct ${1:MyPlugin};",
+			"",
+			"impl Plugin for $1 {",
+			"    fn build(&self, app: &mut App) {",
+			"        app",
+			"            .add_system(${2:my_system})",
+			"            .add_startup_system(${3:setup});",
+			"    }",
+			"}",
+			"",
+			"fn ${3:setup}(mut commands: Commands) {",
+			"    // setup code",
+			"}",
+			"",
+			"fn ${2:my_system}() {",
+			"    // system logic",
+			"}"
+		],
+		"description": "Bevy Plugin Boilerplate"
+	},
+	"Bevy Bundle with Spawn": {
+		"prefix": "bevybundle",
+		"body": [
+			"#[derive(Bundle)]",
+			"pub struct ${1:MyBundle} {}",
+			"",
+			"impl Default for ${1:MyBundle} {",
+			"    fn default() -> Self {",
+			"        ${1:MyBundle}",
+			"    }",
+			"}",
+			"",
+			"impl ${1:MyBundle} {",
+			"    pub fn spawn(",
+			"        self,",
+			"        commands: &mut Commands,",
+			"        meshes: &mut ResMut<Assets<Mesh>>,",
+			"        materials: &mut ResMut<Assets<StandardMaterial>>,",
+			"    ) {",
+			"        commands.spawn((self));",
+			"    }",
+			"}",
+		],
+		"description": "Defines a Bevy Bundle with a spawn method"
+	}
 }
