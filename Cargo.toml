@@ -1,0 +1,18 @@
+[package]
+name = "bevy_tavern_game"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bevy = { version = "0.16.1", features = ["dynamic_linking"] }
+log = { version = "*", features = ["max_level_debug", "release_max_level_warn"] }
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[toolchain]
+channel = "nightly"
+
+[unstable]
+codegen-backend = true
+

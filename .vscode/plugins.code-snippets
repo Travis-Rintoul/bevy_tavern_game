@@ -1,0 +1,27 @@
+{
+  "Bevy Plugin Template": {
+    "prefix": "bevyplugin",
+    "body": [
+      "use bevy::prelude::*;",
+      "",
+      "pub struct ${1:MyPlugin};",
+      "",
+      "impl Plugin for $1 {",
+      "    fn build(&self, app: &mut App) {",
+      "        app",
+      "            .add_system(${2:my_system})",
+      "            .add_startup_system(${3:setup});",
+      "    }",
+      "}",
+      "",
+      "fn ${3:setup}(mut commands: Commands) {",
+      "    // setup code",
+      "}",
+      "",
+      "fn ${2:my_system}() {",
+      "    // system logic",
+      "}"
+    ],
+    "description": "Bevy Plugin Boilerplate"
+  }
+}
