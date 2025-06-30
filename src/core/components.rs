@@ -85,3 +85,6 @@ impl<'a> IntoIterator for &'a mut Inventory {
 pub struct CraftingOptions {
     recipes: Vec<RecipeID>,
 }
+
+#[derive(Component, Debug)]
+pub struct RecipeList;
