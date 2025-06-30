@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::{INVENTORY_WINDOW_GRID_TILE_SIZE, InventoryItemStack, InventoryItemWindow};
+use crate::core::{INVENTORY_WINDOW_GRID_TILE_SIZE, InventoryItemWindow, ItemStack};
 #[derive(Bundle)]
 pub struct InventoryItemWindowBundle {
     marker: InventoryItemWindow,
@@ -28,7 +28,7 @@ impl Default for InventoryItemWindowBundle {
 }
 
 impl InventoryItemWindowBundle {
-    pub fn from_stack(stack: &InventoryItemStack) -> impl Bundle {
+    pub fn from_stack(stack: &ItemStack) -> impl Bundle {
         let mut default = InventoryItemWindowBundle::default();
         default.text = Text::new(stack.item_id.to_string());
         default.marker = InventoryItemWindow {
