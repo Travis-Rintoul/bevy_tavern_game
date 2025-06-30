@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 
 use crate::plugins::{
-    ActorPlugin, CameraPlugin, CorePlugin, DebugPlugin, PlayerPlugin, SceneManagerPlugin, UIPlugin,
+    ActorPlugin, CameraPlugin, CorePlugin, DebugPlugin, InventoryPlugin, SceneManagerPlugin,
+    UIPlugin,
 };
 
 mod actors;
@@ -17,10 +18,10 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_plugins(UIPlugin)
         .add_plugins(SceneManagerPlugin)
-        .add_plugins(PlayerPlugin)
         .add_plugins(CameraPlugin)
         .add_plugins(CorePlugin)
         .add_plugins(ActorPlugin)
         .add_plugins(DebugPlugin)
+        .add_plugins(InventoryPlugin)
         .run();
 }

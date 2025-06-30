@@ -1,15 +1,17 @@
 use bevy::prelude::*;
 
-use crate::core::StoveSlot;
+use crate::core::{Device, StoveSlot};
 
 #[derive(Bundle)]
 pub struct StoveSlotBundle {
+    device_marker: Device,
     marker: StoveSlot,
 }
 
 impl Default for StoveSlotBundle {
     fn default() -> Self {
         StoveSlotBundle {
+            device_marker: Device::default(),
             marker: StoveSlot::default(),
         }
     }

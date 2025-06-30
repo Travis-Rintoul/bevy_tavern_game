@@ -1,8 +1,9 @@
 use bevy::prelude::*;
 
 use crate::core::{
-    PlayerClosedDeviceInterfaceEvent, PlayerMovedEvent, PlayerOpenedDeviceInterfaceEvent, Scenes,
-    UIState,
+    InventoryWindowPopulationRequestEvent, PlayerClosedDeviceInterfaceEvent,
+    PlayerClosedInventoryScreenEvent, PlayerMovedEvent, PlayerOpenInventoryScreenEvent,
+    PlayerOpenedDeviceInterfaceEvent, Scenes, UIState,
 };
 
 pub struct CorePlugin;
@@ -15,6 +16,9 @@ impl Plugin for CorePlugin {
         // Init Events
         app.add_event::<PlayerMovedEvent>()
             .add_event::<PlayerOpenedDeviceInterfaceEvent>()
-            .add_event::<PlayerClosedDeviceInterfaceEvent>();
+            .add_event::<PlayerClosedDeviceInterfaceEvent>()
+            .add_event::<PlayerOpenInventoryScreenEvent>()
+            .add_event::<PlayerClosedInventoryScreenEvent>()
+            .add_event::<InventoryWindowPopulationRequestEvent>();
     }
 }

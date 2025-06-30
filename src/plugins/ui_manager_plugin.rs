@@ -1,35 +1,36 @@
 use bevy::prelude::*;
 
 use crate::{
-    core::{PlayerClosedDeviceInterfaceEvent, PlayerOpenedDeviceInterfaceEvent, UIState},
-    ui::{ExplorationUIPlugin, StoveDeviceUIPlugin},
+    core::{
+        PLAYER_DEFAULT_UI_STATE, PlayerClosedDeviceInterfaceEvent,
+        PlayerClosedInventoryScreenEvent, PlayerOpenInventoryScreenEvent,
+        PlayerOpenedDeviceInterfaceEvent, UIState,
+    },
+    plugins::UIElementsPlugin,
+    ui::{ExplorationUIPlugin, InventroyUIPlugin, StoveDeviceUIPlugin},
 };
 
 pub struct UIPlugin;
 
 impl Plugin for UIPlugin {
     fn build(&self, app: &mut App) {
+        app.add_plugins(UIElementsPlugin);
+
         // add ui states
         app.add_plugins(ExplorationUIPlugin)
-            .add_plugins(StoveDeviceUIPlugin);
+            .add_plugins(StoveDeviceUIPlugin)
+            .add_plugins(InventroyUIPlugin);
 
         // add common ui states
         app.add_systems(
             Update,
-            (
-                (handle_device_opened_event, handle_device_closed_event),
-                close_device_interface.run_if(in_state(UIState::DeviceStove)),
-            ),
+            ((
+                handle_device_opened_event,
+                handle_device_closed_event,
+                handle_inventory_opened_event,
+                handle_inventory_closed_event,
+            )),
         );
-    }
-}
-
-fn close_device_interface(
-    button: Res<ButtonInput<KeyCode>>,
-    mut writer: EventWriter<PlayerClosedDeviceInterfaceEvent>,
-) {
-    if button.just_pressed(KeyCode::Escape) {
-        writer.write(PlayerClosedDeviceInterfaceEvent);
     }
 }
 
@@ -47,6 +48,24 @@ fn handle_device_closed_event(
     mut events: EventReader<PlayerClosedDeviceInterfaceEvent>,
 ) {
     for _ in events.read() {
-        ui_state.set(UIState::Exploration)
+        ui_state.set(PLAYER_DEFAULT_UI_STATE)
+    }
+}
+
+fn handle_inventory_opened_event(
+    mut ui_state: ResMut<NextState<UIState>>,
+    mut events: EventReader<PlayerOpenInventoryScreenEvent>,
+) {
+    for _ in events.read() {
+        ui_state.set(UIState::Inventory)
+    }
+}
+
+fn handle_inventory_closed_event(
+    mut ui_state: ResMut<NextState<UIState>>,
+    mut events: EventReader<PlayerClosedInventoryScreenEvent>,
+) {
+    for _ in events.read() {
+        ui_state.set(PLAYER_DEFAULT_UI_STATE)
     }
 }

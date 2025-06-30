@@ -13,3 +13,15 @@ pub struct PlayerOpenedDeviceInterfaceEvent {
 
 #[derive(Event)]
 pub struct PlayerClosedDeviceInterfaceEvent;
+
+#[derive(Event)]
+pub struct PlayerOpenInventoryScreenEvent;
+
+#[derive(Event)]
+pub struct PlayerClosedInventoryScreenEvent;
+
+#[derive(Event)]
+pub struct InventoryWindowPopulationRequestEvent {
+    pub window_entity: Entity,
+    pub inventory_entity: Entity,
+}
