@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::{InventoryItemStack, ItemID, RecipeID};
+use crate::core::{ItemID, ItemStack, RecipeID};
 
 #[derive(Component)]
 pub struct Player;
@@ -42,21 +42,19 @@ pub struct InventoryItemWindow {
 
 #[derive(Component, Debug, Default)]
 pub struct Inventory {
-    stacks: Vec<InventoryItemStack>,
+    stacks: Vec<ItemStack>,
     max_inventory_stack: u32,
 }
 
 impl Inventory {
     pub fn add_item(&mut self, item: ItemID, count: u32) {
-        let existing_stack: Option<&mut InventoryItemStack> = self
-            .stacks
-            .iter_mut()
-            .find(|stack| stack.item_id == item && stack.item_count != stack.max_size);
+        let existing_stack: Option<&mut ItemStack> =
+            self.stacks.iter_mut().find(|stack| stack.item_id == item);
 
         if let Some(stack) = existing_stack {
             stack.item_count += count;
         } else {
-            self.stacks.push(InventoryItemStack::new(item, count));
+            self.stacks.push(ItemStack::new(item, count));
         }
     }
 
@@ -66,8 +64,8 @@ impl Inventory {
 }
 
 impl<'a> IntoIterator for &'a Inventory {
-    type Item = &'a InventoryItemStack;
-    type IntoIter = std::slice::Iter<'a, InventoryItemStack>;
+    type Item = &'a ItemStack;
+    type IntoIter = std::slice::Iter<'a, ItemStack>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.stacks.iter()
@@ -75,8 +73,8 @@ impl<'a> IntoIterator for &'a Inventory {
 }
 
 impl<'a> IntoIterator for &'a mut Inventory {
-    type Item = &'a mut InventoryItemStack;
-    type IntoIter = std::slice::IterMut<'a, InventoryItemStack>;
+    type Item = &'a mut ItemStack;
+    type IntoIter = std::slice::IterMut<'a, ItemStack>;
 
     fn into_iter(self) -> Self::IntoIter {
         self.stacks.iter_mut()

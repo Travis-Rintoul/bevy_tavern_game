@@ -127,4 +127,5 @@ pub enum RecipeID {
     CookedMeat,
     VegetableSoup,
     GrilledFish,
+    FishStew,
 }

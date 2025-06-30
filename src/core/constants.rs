@@ -1,6 +1,6 @@
 use once_cell::sync::Lazy;
 
-use crate::core::{ItemID, Recipe, RecipeID, UIState};
+use crate::core::{ItemID, ItemStack, Recipe, RecipeID, UIState};
 
 pub const PLAYER_MOVEMENT_SPEED: f32 = 6.0;
 pub const PLAYER_DEFAULT_UI_STATE: UIState = UIState::Exploration;
@@ -13,14 +13,17 @@ pub static ALL_RECIPES: Lazy<Vec<Recipe>> = Lazy::new(|| {
         Recipe {
             id: RecipeID::CookedMeat,
             name: "Cooked Meat",
-            required_items: vec![ItemID::RawMeat],
+            required_items: vec![ItemStack::new(ItemID::RawMeat, 1)],
             cook_time: 5.0,
             output_item: ItemID::CookedMeat,
         },
         Recipe {
-            id: RecipeID::VegetableSoup,
-            name: "Vegetable Soup",
-            required_items: vec![ItemID::Herb, ItemID::Fish],
+            id: RecipeID::FishStew,
+            name: "Fish Soup",
+            required_items: vec![
+                ItemStack::new(ItemID::Herb, 1),
+                ItemStack::new(ItemID::Fish, 1),
+            ],
             cook_time: 8.0,
             output_item: ItemID::VegetableSoup,
         },
