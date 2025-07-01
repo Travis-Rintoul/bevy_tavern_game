@@ -1,8 +1,9 @@
 use bevy::prelude::*;
 
-use crate::core::{DeviceType, Player, PlayerOpenedDeviceInterfaceEvent, StoveDevice};
+use crate::core::{DeviceType, Player, PlayerOpenedDeviceInterfaceEvent, StoveDevice, UIState};
 
 pub fn stove_interaction(
+    mut ui_state: ResMut<NextState<UIState>>,
     button: Res<ButtonInput<KeyCode>>,
     player_transform: Single<&Transform, (With<Player>, Without<StoveDevice>)>,
     stove_query: Query<(Entity, &Transform), (With<StoveDevice>, Without<Player>)>,
@@ -19,6 +20,7 @@ pub fn stove_interaction(
             .distance(player_transform.translation)
             < 10.0
         {
+            ui_state.set(UIState::DeviceStove);
             event_writer.write(PlayerOpenedDeviceInterfaceEvent {
                 device: stove_entity,
                 device_type: DeviceType::Stove,

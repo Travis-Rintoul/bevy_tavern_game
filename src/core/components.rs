@@ -20,6 +20,7 @@ pub enum Owner {
     Other,
     Player,
     Npc(Entity),
+    Device(Entity),
 }
 
 #[derive(Component)]
@@ -33,6 +34,9 @@ pub struct InventoryItem;
 
 #[derive(Component, Debug)]
 pub struct InventoryWindow;
+
+#[derive(Component, Debug)]
+pub struct RecipeListWindow;
 
 #[derive(Component, Debug, Default)]
 pub struct InventoryItemWindow {

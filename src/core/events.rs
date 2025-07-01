@@ -25,3 +25,10 @@ pub struct InventoryWindowPopulationRequestEvent {
     pub window_entity: Entity,
     pub inventory_entity: Entity,
 }
+
+#[derive(Event)]
+pub struct RecipeWindowPopulationRequestEvent {
+    pub window_entity: Entity,
+    pub inventory_entity: Entity,
+    pub device_type: DeviceType,
+}

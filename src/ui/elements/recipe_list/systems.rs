@@ -1,23 +1,15 @@
-use bevy::{color::palettes::css::GOLD, prelude::*};
+use bevy::prelude::*;
 
-use crate::{
-    core::{Inventory, InventoryWindow, InventoryWindowPopulationRequestEvent},
-    ui::InventoryItemWindowBundle,
-};
+use crate::core::{ALL_RECIPES, RecipeListWindow, RecipeWindowPopulationRequestEvent};
 
-pub fn populate_inventory_window(
+pub fn populate_recipe_window(
     mut commands: Commands,
     children_query: Query<&Children>,
-    inventory_query: Query<&Inventory>,
-    inventory_window_query: Query<&InventoryWindow>,
-    mut events: EventReader<InventoryWindowPopulationRequestEvent>,
+    recipe_window_query: Query<&RecipeListWindow>,
+    mut events: EventReader<RecipeWindowPopulationRequestEvent>,
 ) {
     for event in events.read() {
-        let Ok(inventory) = inventory_query.get(event.inventory_entity) else {
-            continue;
-        };
-
-        let Ok(_) = inventory_window_query.get(event.window_entity) else {
+        let Ok(_) = recipe_window_query.get(event.window_entity) else {
             continue;
         };
 
@@ -27,23 +19,23 @@ pub fn populate_inventory_window(
             }
         }
 
+        let relavent_recipies = &ALL_RECIPES;
+
         commands
             .entity(event.window_entity)
             .with_children(|parent| {
-                inventory.into_iter().for_each(|stack| {
+                relavent_recipies.iter().for_each(|recipe| {
                     parent
-                        .spawn(InventoryItemWindowBundle::from_stack(stack))
-                        .with_children(|item_window| {
+                        .spawn((Node {
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(100.0),
+                            ..Default::default()
+                        },))
+                        .with_children(|recipe_record| {
                             // Spawn stack count
-                            item_window.spawn((
-                                Node {
-                                    position_type: PositionType::Absolute,
-                                    bottom: Val::Px(0.0),
-                                    right: Val::Px(0.0),
-                                    ..Default::default()
-                                },
-                                Text::new(format!("{}", stack.item_count)),
-                                TextColor(GOLD.into()),
+                            recipe_record.spawn((
+                                Text::new(recipe.name),
+                                TextColor(Color::srgb_u8(255, 255, 255)),
                             ));
                         });
                 });

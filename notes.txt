@@ -1,0 +1,1 @@
+1. make use of PreUpdate, ideally if we are reactiong to events, updating the state, it should be done from PreUpdate where possible lest e run into timing issues.

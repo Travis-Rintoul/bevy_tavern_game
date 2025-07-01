@@ -5,7 +5,6 @@ use crate::devices::stove::stove_slot::StoveSlotPlugin;
 pub struct StoveDevicePlugin;
 
 impl Plugin for StoveDevicePlugin {
-    #[allow(unused_variables)]
     fn build(&self, app: &mut App) {
         app.add_plugins(StoveSlotPlugin);
     }

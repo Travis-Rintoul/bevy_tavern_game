@@ -1,4 +1,4 @@
 mod oven;
 mod stove;
 
-pub use stove::StoveDeviceBundle;
+pub use stove::{StoveDeviceBundle, StoveDevicePlugin};

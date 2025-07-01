@@ -4,5 +4,4 @@ mod stove_slot;
 
 pub use bundle::StoveDeviceBundle;
 
-#[allow(unused_imports)]
 pub use plugin::StoveDevicePlugin;
