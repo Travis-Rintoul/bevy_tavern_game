@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::{ItemID, ItemStack, RecipeID};
+use crate::core::{CraftingProgress, CraftingTask, ItemID, ItemStack, RecipeID};
 
 #[derive(Component)]
 pub struct Player;
@@ -92,3 +92,21 @@ pub struct CraftingOptions {
 
 #[derive(Component, Debug)]
 pub struct RecipeList;
+
+#[derive(Component, Debug)]
+pub struct RecipeWindow;
+
+#[derive(Component, Debug)]
+pub struct RecipeListOption(pub RecipeID);
+
+#[derive(Component, Default)]
+pub struct CraftingStation {
+    pub queue: Vec<CraftingTask>,
+    pub current_progress: Option<CraftingProgress>,
+}
+
+#[derive(Component)]
+pub struct CraftButton(pub RecipeID);
+
+#[derive(Component, Default)]
+pub struct Crafting(pub bool);

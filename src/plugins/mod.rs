@@ -1,6 +1,7 @@
 mod actor_plugin;
 mod camera_plugin;
 mod core_plugin;
+mod crafting_plugin;
 mod debug;
 mod device_plugin;
 mod inventory_plugin;
@@ -12,6 +13,7 @@ mod ui_manager_plugin;
 pub use actor_plugin::ActorPlugin;
 pub use camera_plugin::CameraPlugin;
 pub use core_plugin::CorePlugin;
+pub use crafting_plugin::CraftingPlugin;
 pub use debug::DebugPlugin;
 pub use device_plugin::DevicePlugin;
 pub use inventory_plugin::InventoryPlugin;

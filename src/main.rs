@@ -1,12 +1,12 @@
-use std::{env, io::Write};
-
-use bevy::prelude::*;
-use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
+#![allow(dead_code, unused)]
 
 use crate::plugins::{
-    ActorPlugin, CameraPlugin, CorePlugin, DebugPlugin, DevicePlugin, InventoryPlugin,
-    RecipePlugin, SceneManagerPlugin, UIPlugin,
+    ActorPlugin, CameraPlugin, CorePlugin, CraftingPlugin, DebugPlugin, DevicePlugin,
+    InventoryPlugin, RecipePlugin, SceneManagerPlugin, UIPlugin,
 };
+use bevy::prelude::*;
+use bevy_inspector_egui::{bevy_egui::EguiPlugin, quick::WorldInspectorPlugin};
+use std::{env, io::Write};
 
 mod actors;
 mod cameras;
@@ -42,5 +42,6 @@ fn main() {
         .add_plugins(DebugPlugin)
         .add_plugins(InventoryPlugin)
         .add_plugins(RecipePlugin)
+        .add_plugins(CraftingPlugin)
         .run();
 }

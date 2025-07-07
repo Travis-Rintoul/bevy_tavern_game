@@ -12,14 +12,14 @@ pub static ALL_RECIPES: Lazy<Vec<Recipe>> = Lazy::new(|| {
     vec![
         Recipe {
             id: RecipeID::CookedMeat,
-            name: "Cooked Meat",
+            name: "Cooked Meat".to_string(),
             required_items: vec![ItemStack::new(ItemID::RawMeat, 1)],
             cook_time: 5.0,
             output_item: ItemID::CookedMeat,
         },
         Recipe {
             id: RecipeID::FishStew,
-            name: "Fish Soup",
+            name: "Fish Soup".to_string(),
             required_items: vec![
                 ItemStack::new(ItemID::Herb, 1),
                 ItemStack::new(ItemID::Fish, 1),

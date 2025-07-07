@@ -1,7 +1,8 @@
-use bevy::prelude::*;
+use bevy::{ecs::system::command, prelude::*};
 
 use crate::core::{
-    InterfaceFlowSet, Owner, Player, PlayerOpenedDeviceInterfaceEvent, RecipeListWindow,
+    InterfaceFlowSet, Owner, Player, PlayerOpenedDeviceInterfaceEvent, RecipeID, RecipeListOption,
+    RecipeListWindow, RecipeListWindowOptionSelected, RecipeListWindowPopulationRequestEvent,
     RecipeWindowPopulationRequestEvent,
 };
 
@@ -11,12 +12,16 @@ impl Plugin for RecipePlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(
             Update,
-            emit_recipe_window_population_request.in_set(InterfaceFlowSet::AfterChange),
+            (
+                handle_recipe_selected,
+                emit_recipe_window_population_request.in_set(InterfaceFlowSet::AfterChange),
+            ),
         );
     }
 }
 
 fn emit_recipe_window_population_request(
+    mut commands: Commands,
     player_query: Query<Entity, With<Player>>,
     mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>,
     recipe_window_query: Query<(Entity, Option<&Owner>), With<RecipeListWindow>>,
@@ -32,13 +37,33 @@ fn emit_recipe_window_population_request(
             if let Some(Owner::Device(device_entity)) = owner {
                 if *device_entity == event.device {
                     // Tell the UI to display the ui items
-                    population_request_event.write(RecipeWindowPopulationRequestEvent {
-                        window_entity: window_entity,
-                        inventory_entity: player_entity,
-                        device_type: event.device_type.clone(),
-                    });
+                    commands.entity(window_entity).trigger(
+                        RecipeListWindowPopulationRequestEvent {
+                            inventory_entity: player_entity,
+                            device_type: event.device_type.clone(),
+                        },
+                    );
                 }
             }
         }
     }
 }
+
+fn handle_recipe_selected(
+    mut command: Commands,
+    mut query: Query<(&Interaction, &RecipeListOption, &ChildOf, Entity), Changed<Interaction>>,
+    parent_query: Query<&Children>,
+    mut commands: Commands,
+) {
+    for (interaction, button_data, parent, entity) in &mut query {
+        if *interaction == Interaction::Pressed {
+            commands
+                .entity(parent.0)
+                .trigger(RecipeListWindowOptionSelected {
+                    recipe_id: button_data.0,
+                });
+        }
+    }
+}
+
+fn handle_recipe_craft_request() {}

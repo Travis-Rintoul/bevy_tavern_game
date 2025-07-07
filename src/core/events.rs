@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::DeviceType;
+use crate::core::{DeviceType, RecipeID};
 
 #[derive(Event)]
 pub struct PlayerMovedEvent;
@@ -27,8 +27,23 @@ pub struct InventoryWindowPopulationRequestEvent {
 }
 
 #[derive(Event)]
-pub struct RecipeWindowPopulationRequestEvent {
-    pub window_entity: Entity,
+pub struct RecipeListWindowPopulationRequestEvent {
     pub inventory_entity: Entity,
     pub device_type: DeviceType,
+}
+
+#[derive(Event)]
+pub struct RecipeWindowPopulationRequestEvent {
+    pub recipe_id: RecipeID,
+}
+
+#[derive(Event)]
+pub struct RecipeListWindowOptionSelected {
+    pub recipe_id: RecipeID,
+}
+
+#[derive(Event)]
+pub struct CraftingStationStartCraftingRequest {
+    pub recipe_id: RecipeID,
+    pub device_entity: Entity,
 }
