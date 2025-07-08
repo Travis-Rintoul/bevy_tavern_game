@@ -109,4 +109,7 @@ pub struct CraftingStation {
 pub struct CraftButton(pub RecipeID);
 
 #[derive(Component, Default)]
-pub struct Crafting(pub bool);
+pub struct Crafting {
+    pub timer: Timer,
+    pub paused: bool,
+}

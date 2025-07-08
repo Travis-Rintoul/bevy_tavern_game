@@ -2,10 +2,12 @@ use bevy::prelude::*;
 
 use crate::core::{
     ALL_RECIPES, RecipeListOption, RecipeListWindow, RecipeListWindowOptionSelected,
-    RecipeListWindowPopulationRequestEvent, RecipeWindowPopulationRequestEvent,
+    RecipeListWindowPopulationRequestEvent,
 };
 
-pub fn option_selected_observer(trigger: Trigger<RecipeListWindowOptionSelected>) {}
+pub fn option_selected_observer(trigger: Trigger<RecipeListWindowOptionSelected>) {
+    let _ = trigger;
+}
 
 pub fn populate_recipe_list_window(
     trigger: Trigger<RecipeListWindowPopulationRequestEvent>,

@@ -2,8 +2,9 @@ use bevy::prelude::*;
 
 use crate::{
     core::{
-        PLAYER_DEFAULT_UI_STATE, PlayerClosedDeviceInterfaceEvent,
-        PlayerClosedInventoryScreenEvent, PlayerOpenInventoryScreenEvent, UIState,
+        DeviceType, InterfaceFlowSet, PLAYER_DEFAULT_UI_STATE, PlayerClosedDeviceInterfaceEvent,
+        PlayerClosedInventoryScreenEvent, PlayerOpenInventoryScreenEvent,
+        PlayerOpenedDeviceInterfaceEvent, UIState,
     },
     plugins::UIElementsPlugin,
     ui::{ExplorationUIPlugin, InventroyUIPlugin, StoveDeviceUIPlugin},
@@ -22,13 +23,25 @@ impl Plugin for UIPlugin {
 
         // add common ui states
         app.add_systems(
-            Update,
+            PreUpdate,
             (
                 handle_device_closed_event,
-                handle_inventory_opened_event,
+                handle_inventory_opened_event.in_set(InterfaceFlowSet::EntryHook),
+                handle_device_open_event.in_set(InterfaceFlowSet::EntryHook),
                 handle_inventory_closed_event,
             ),
         );
+    }
+}
+
+fn handle_device_open_event(
+    mut ui_state: ResMut<NextState<UIState>>,
+    mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>,
+) {
+    for event in events.read() {
+        match event.device_type {
+            DeviceType::Stove => ui_state.set(UIState::DeviceStove),
+        }
     }
 }
 
@@ -46,6 +59,7 @@ fn handle_inventory_opened_event(
     mut events: EventReader<PlayerOpenInventoryScreenEvent>,
 ) {
     for _ in events.read() {
+        println!("2");
         ui_state.set(UIState::Inventory)
     }
 }

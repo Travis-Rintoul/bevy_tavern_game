@@ -6,6 +6,6 @@ pub struct InventoryWindowUIElementPlugin;
 
 impl Plugin for InventoryWindowUIElementPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, populate_inventory_window);
+        app.add_observer(populate_inventory_window);
     }
 }

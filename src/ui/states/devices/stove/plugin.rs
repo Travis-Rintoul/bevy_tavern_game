@@ -14,7 +14,7 @@ impl Plugin for StoveDeviceUIPlugin {
             (set_interface_setup, setup)
                 .chain()
                 .run_if(condtion)
-                .in_set(InterfaceFlowSet::DoChange),
+                .in_set(InterfaceFlowSet::ActionHook),
         )
         .add_systems(
             OnExit(UIState::DeviceStove),

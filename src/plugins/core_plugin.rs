@@ -20,13 +20,25 @@ impl Plugin for CorePlugin {
 
         // Configure System sets
         app.configure_sets(
+            PreUpdate,
+            (
+                InterfaceFlowSet::InputHook,
+                InterfaceFlowSet::EntryHook.after(InterfaceFlowSet::InputHook),
+            ),
+        );
+
+        app.configure_sets(
             Update,
             (
-                InterfaceFlowSet::Entry,
-                InterfaceFlowSet::BeforeChange.after(InterfaceFlowSet::Entry),
-                InterfaceFlowSet::DoChange.after(InterfaceFlowSet::BeforeChange),
-                InterfaceFlowSet::AfterChange.after(InterfaceFlowSet::DoChange),
+                InterfaceFlowSet::BeforeHook.after(InterfaceFlowSet::EntryHook),
+                InterfaceFlowSet::ActionHook.after(InterfaceFlowSet::BeforeHook),
+                InterfaceFlowSet::AfterHook.after(InterfaceFlowSet::ActionHook),
             ),
+        );
+
+        app.configure_sets(
+            PostUpdate,
+            (InterfaceFlowSet::PostAfterHook.after(InterfaceFlowSet::AfterHook),),
         );
 
         // Init Events

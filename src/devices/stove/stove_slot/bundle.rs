@@ -18,12 +18,7 @@ impl Default for StoveSlotBundle {
 }
 
 impl StoveSlotBundle {
-    pub fn spawn(
-        self,
-        commands: &mut Commands,
-        meshes: &mut ResMut<Assets<Mesh>>,
-        materials: &mut ResMut<Assets<StandardMaterial>>,
-    ) {
-        commands.spawn((self));
+    pub fn spawn(self, commands: &mut Commands) {
+        commands.spawn(self);
     }
 }

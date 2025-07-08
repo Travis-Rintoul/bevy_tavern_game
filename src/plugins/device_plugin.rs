@@ -10,10 +10,9 @@ pub struct DevicePlugin;
 impl Plugin for DevicePlugin {
     fn build(&self, app: &mut App) {
         app.add_plugins(StoveDevicePlugin);
-
         app.add_systems(
-            Update,
-            update_active_device_resource.in_set(InterfaceFlowSet::BeforeChange),
+            PreUpdate,
+            update_active_device_resource.in_set(InterfaceFlowSet::EntryHook),
         );
     }
 }

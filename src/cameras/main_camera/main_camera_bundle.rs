@@ -16,13 +16,7 @@ impl Default for MainCameraBundle {
 }
 
 impl MainCameraBundle {
-    #[allow(unused_variables, dead_code, unused_parens)]
-    pub fn spawn(
-        self,
-        commands: &mut Commands,
-        meshes: &mut ResMut<Assets<Mesh>>,
-        materials: &mut ResMut<Assets<StandardMaterial>>,
-    ) {
-        commands.spawn((self));
+    pub fn spawn(self, commands: &mut Commands) {
+        commands.spawn(self);
     }
 }

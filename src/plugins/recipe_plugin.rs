@@ -14,7 +14,7 @@ impl Plugin for RecipePlugin {
             Update,
             (
                 handle_recipe_selected,
-                emit_recipe_window_population_request.in_set(InterfaceFlowSet::AfterChange),
+                emit_recipe_window_population_request.in_set(InterfaceFlowSet::AfterHook),
             ),
         );
     }
@@ -25,7 +25,6 @@ fn emit_recipe_window_population_request(
     player_query: Query<Entity, With<Player>>,
     mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>,
     recipe_window_query: Query<(Entity, Option<&Owner>), With<RecipeListWindow>>,
-    mut population_request_event: EventWriter<RecipeWindowPopulationRequestEvent>,
 ) {
     for event in events.read() {
         let Ok(player_entity) = player_query.single() else {
@@ -50,12 +49,10 @@ fn emit_recipe_window_population_request(
 }
 
 fn handle_recipe_selected(
-    mut command: Commands,
-    mut query: Query<(&Interaction, &RecipeListOption, &ChildOf, Entity), Changed<Interaction>>,
-    parent_query: Query<&Children>,
+    mut query: Query<(&Interaction, &RecipeListOption, &ChildOf), Changed<Interaction>>,
     mut commands: Commands,
 ) {
-    for (interaction, button_data, parent, entity) in &mut query {
+    for (interaction, button_data, parent) in &mut query {
         if *interaction == Interaction::Pressed {
             commands
                 .entity(parent.0)

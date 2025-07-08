@@ -22,7 +22,7 @@ fn listen(mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>) {
 
 fn listen_craft(query: Query<(&Crafting, &CraftingStation)>) {
     for (crafting, station) in query.iter() {
-        if !crafting.0 {
+        if !crafting.paused {
             continue;
         }
 

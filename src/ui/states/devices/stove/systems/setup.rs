@@ -2,9 +2,8 @@ use bevy::prelude::*;
 
 use crate::{
     core::{
-        ActiveDeviceResource, Crafting, CraftingStation, CraftingStationStartCraftingRequest,
-        Owner, RecipeListWindowOptionSelected, RecipeWindow, RecipeWindowPopulationRequestEvent,
-        UIState,
+        ActiveDeviceResource, Crafting, CraftingStation, Owner, RecipeListWindowOptionSelected,
+        RecipeWindow, RecipeWindowPopulationRequestEvent, UIState,
     },
     ui::{RecipeListWindowBundle, RecipeWindowBundle},
 };
@@ -53,21 +52,6 @@ pub fn setup(mut commands: Commands, active_device: Res<ActiveDeviceResource>) {
                 Owner::Device(entity),
             ));
         });
-}
-
-fn handle_craft_clicked(
-    trigger: Trigger<CraftingStationStartCraftingRequest>,
-    mut commands: Commands,
-    parent_query: Query<&ChildOf>,
-    mut station_query: Query<(&mut CraftingStation, &mut Crafting)>,
-) {
-    let Ok(parent) = parent_query.get(trigger.target()) else {
-        return;
-    };
-
-    if let Ok((station, mut crafting)) = station_query.get_mut(parent.0) {
-        crafting.0 = true;
-    }
 }
 
 fn show_selected_recipe(

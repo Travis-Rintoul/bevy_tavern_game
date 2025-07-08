@@ -9,8 +9,10 @@ pub enum SceneSystemSet {
 
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum InterfaceFlowSet {
-    Entry,
-    BeforeChange,
-    DoChange,
-    AfterChange,
+    InputHook,
+    EntryHook,
+    BeforeHook,
+    ActionHook,
+    AfterHook,
+    PostAfterHook,
 }

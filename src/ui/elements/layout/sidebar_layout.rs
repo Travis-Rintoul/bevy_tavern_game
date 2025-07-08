@@ -29,38 +29,21 @@ impl SidebarLayoutBundle {
             ))
             .with_children(|builder| {
                 builder
-                    .spawn(
-                        (Node {
-                            width: Val::Percent(20.0),
-                            height: Val::Px(100.0),
-                            ..Default::default()
-                        }),
-                    )
+                    .spawn(Node {
+                        width: Val::Percent(20.0),
+                        height: Val::Px(100.0),
+                        ..Default::default()
+                    })
                     .with_children(sidebar_content);
 
                 builder
-                    .spawn(
-                        (Node {
-                            width: Val::Percent(80.0),
-                            height: Val::Px(100.0),
-                            ..Default::default()
-                        }),
-                    )
+                    .spawn(Node {
+                        width: Val::Percent(80.0),
+                        height: Val::Px(100.0),
+                        ..Default::default()
+                    })
                     .with_children(main_content);
             })
             .id()
     }
 }
-
-/*
-    Example:
-    SidebarLayoutBundle::default().spawn(
-        parent,
-        |side_bar| {
-            side_bar.spawn(Text::new("SIDEBAR"));
-        },
-        |main| {
-            main.spawn(Text::new("MAIN"));
-        },
-    );
-*/

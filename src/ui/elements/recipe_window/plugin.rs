@@ -1,8 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::{
-    ALL_RECIPES, CraftButton, RecipeListOption, RecipeWindow, RecipeWindowPopulationRequestEvent,
-};
+use crate::core::{ALL_RECIPES, CraftButton, RecipeWindowPopulationRequestEvent};
 
 pub struct RecipeWindowUIElementPlugin;
 
