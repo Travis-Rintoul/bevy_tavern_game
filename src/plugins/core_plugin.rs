@@ -1,7 +1,8 @@
 use bevy::prelude::*;
 
 use crate::core::{
-    ActiveDeviceResource, CraftingStationStartCraftingRequest, InterfaceFlowSet, InterfaceSetup,
+    ActiveDeviceResource, CraftingStationFinishedCraftingRequest,
+    CraftingStationStartCraftingRequest, InterfaceFlowSet, InterfaceSetup,
     InventoryWindowPopulationRequestEvent, PlayerClosedDeviceInterfaceEvent,
     PlayerClosedInventoryScreenEvent, PlayerMovedEvent, PlayerOpenInventoryScreenEvent,
     PlayerOpenedDeviceInterfaceEvent, RecipeWindowPopulationRequestEvent, Scenes, UIState,
@@ -49,6 +50,7 @@ impl Plugin for CorePlugin {
             .add_event::<PlayerClosedInventoryScreenEvent>()
             .add_event::<InventoryWindowPopulationRequestEvent>()
             .add_event::<RecipeWindowPopulationRequestEvent>()
-            .add_event::<CraftingStationStartCraftingRequest>();
+            .add_event::<CraftingStationStartCraftingRequest>()
+            .add_event::<CraftingStationFinishedCraftingRequest>();
     }
 }

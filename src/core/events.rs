@@ -45,5 +45,10 @@ pub struct RecipeListWindowOptionSelected {
 #[derive(Event)]
 pub struct CraftingStationStartCraftingRequest {
     pub recipe_id: RecipeID,
-    pub device_entity: Entity,
+}
+
+#[derive(Event)]
+pub struct CraftingStationFinishedCraftingRequest {
+    pub recipe_id: RecipeID,
+    pub station_entity: Entity,
 }

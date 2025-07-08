@@ -39,7 +39,6 @@ fn condtion(ui_state: Res<State<UIState>>, interface_setup: Res<InterfaceSetup>)
 }
 
 fn setup(mut commands: Commands) {
-    println!("3");
     commands.spawn((
         Text::from("Inventory"),
         StateScoped(UIState::Inventory),

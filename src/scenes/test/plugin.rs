@@ -1,5 +1,5 @@
 use crate::{
-    actors::PlayerBundle,
+    actors::{CustomActorBundle, CustomerActorPlugin, PlayerBundle},
     cameras::MainCameraBundle,
     core::{Scenes, UIState},
     devices::StoveDeviceBundle,
@@ -68,6 +68,15 @@ pub fn setup(
             })),
         ))
         .with_children(|parent| {});
+
+    commands.spawn(CustomActorBundle::default()).insert((
+        Transform::from_xyz(5.0, 1.0, 5.0),
+        Mesh3d(meshes.add(Cylinder::new(radius, height))),
+        MeshMaterial3d(materials.add(StandardMaterial {
+            base_color: Color::srgb(0.0, 1.0, 1.0),
+            ..default()
+        })),
+    ));
 
     ui_state.set(UIState::Exploration);
 }

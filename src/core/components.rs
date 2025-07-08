@@ -52,17 +52,10 @@ pub struct Inventory {
 
 impl Inventory {
     pub fn add_item(&mut self, item: ItemID, count: u32) {
-        let existing_stack: Option<&mut ItemStack> =
-            self.stacks.iter_mut().find(|stack| stack.item_id == item);
-
-        if let Some(stack) = existing_stack {
-            stack.item_count += count;
-        } else {
-            self.stacks.push(ItemStack::new(item, count));
-        }
+        self.stacks.push(ItemStack::new(item, count));
     }
 
-    pub fn contains_item(self, item: ItemID) -> bool {
+    pub fn contains_item(&self, item: ItemID) -> bool {
         self.stacks.iter().any(|stack| stack.item_id == item)
     }
 }
@@ -102,14 +95,32 @@ pub struct RecipeListOption(pub RecipeID);
 #[derive(Component, Default)]
 pub struct CraftingStation {
     pub queue: Vec<CraftingTask>,
-    pub current_progress: Option<CraftingProgress>,
+    pub current_progress: f32,
 }
+
+#[derive(Component, Default)]
+pub struct Station;
 
 #[derive(Component)]
 pub struct CraftButton(pub RecipeID);
 
-#[derive(Component, Default)]
+#[derive(Component)]
 pub struct Crafting {
     pub timer: Timer,
     pub paused: bool,
 }
+
+impl Default for Crafting {
+    fn default() -> Self {
+        Crafting {
+            timer: Timer::from_seconds(1.0, TimerMode::Repeating),
+            paused: true,
+        }
+    }
+}
+
+#[derive(Component)]
+pub struct Customer;
+
+#[derive(Component, Default)]
+pub struct CustomerOrder(pub ItemID);

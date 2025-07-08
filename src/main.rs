@@ -30,10 +30,10 @@ fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(CorePlugin)
-        .add_plugins(EguiPlugin {
-            enable_multipass_for_primary_context: true,
-        })
-        .add_plugins(WorldInspectorPlugin::new())
+        // .add_plugins(EguiPlugin {
+        //     enable_multipass_for_primary_context: true,
+        // })
+        // .add_plugins(WorldInspectorPlugin::new())
         .add_plugins(DevicePlugin)
         .add_plugins(UIPlugin)
         .add_plugins(SceneManagerPlugin)

@@ -3,13 +3,13 @@ use bevy::prelude::*;
 use crate::{
     core::{
         ActiveDeviceResource, Crafting, CraftingStation, Owner, RecipeListWindowOptionSelected,
-        RecipeWindow, RecipeWindowPopulationRequestEvent, UIState,
+        RecipeWindow, RecipeWindowPopulationRequestEvent, Station, UIState,
     },
     ui::{RecipeListWindowBundle, RecipeWindowBundle},
 };
 
 pub fn setup(mut commands: Commands, active_device: Res<ActiveDeviceResource>) {
-    let Some(entity) = active_device.0 else {
+    let Some(owner_entity) = active_device.0 else {
         return;
     };
 
@@ -24,8 +24,8 @@ pub fn setup(mut commands: Commands, active_device: Res<ActiveDeviceResource>) {
             },
             StateScoped(UIState::DeviceStove),
             BackgroundColor(Color::srgb_u8(255, 0, 0)),
-            CraftingStation::default(),
-            Crafting::default(),
+            Station,
+            Owner::Device(owner_entity),
         ))
         .with_children(|parent| {
             // Side Bar
@@ -37,7 +37,7 @@ pub fn setup(mut commands: Commands, active_device: Res<ActiveDeviceResource>) {
                         ..Default::default()
                     },
                     RecipeListWindowBundle::default(),
-                    Owner::Device(entity),
+                    Owner::Device(owner_entity),
                 ))
                 .observe(show_selected_recipe);
 
@@ -49,7 +49,7 @@ pub fn setup(mut commands: Commands, active_device: Res<ActiveDeviceResource>) {
                     ..Default::default()
                 },
                 RecipeWindowBundle::default(), // Crafting button
-                Owner::Device(entity),
+                Owner::Device(owner_entity),
             ));
         });
 }

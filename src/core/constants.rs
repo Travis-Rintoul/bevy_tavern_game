@@ -7,6 +7,7 @@ pub const PLAYER_DEFAULT_UI_STATE: UIState = UIState::Exploration;
 pub const INVENTORY_WINDOW_GRID_SIZE: usize = 10;
 pub const INVENTORY_WINDOW_GRID_TILE_SIZE: f32 = 100.0;
 pub const INVENTORY_WINDOW_GRID_TILE_SPACING: f32 = 5.0;
+pub const PLAYER_PROXIMITY_DIALOG_CHECK: f32 = 10.0;
 
 pub static ALL_RECIPES: Lazy<Vec<Recipe>> = Lazy::new(|| {
     vec![
