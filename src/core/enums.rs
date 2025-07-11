@@ -5,6 +5,17 @@ pub enum DeviceType {
     Stove,
 }
 
+#[derive(Debug, Clone)]
+pub enum NPCType {
+    Customer,
+}
+
+#[derive(Debug, Clone)]
+pub enum InteractableType {
+    NPC(NPCType),
+    Device(DeviceType),
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub enum ItemID {
     #[default]

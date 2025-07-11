@@ -1,14 +1,12 @@
-use bevy::{ecs::error::error, prelude::*};
+use bevy::prelude::*;
 
-use crate::{
-    core::{
-        ActiveDeviceResource, CraftingFinishedEvent, InterfaceFlowSet, InterfaceSetup,
-        InventoryItemAddedEvent, InventoryItemRemovedEvent, InventoryItemTransferredEvent,
-        PlayerClosedDeviceUIEvent, PlayerClosedInventoryUIEvent, PlayerMovedEvent,
-        PlayerOpenedDeviceUIEvent, PlayerOpenedInventoryUIEvent, RequestInventoryUIPopulationEvent,
-        RequestRecipeUIPopulationEvent, Scenes, StartCraftingRequestEvent, UIState,
-    },
-    plugins::InventoryPlugin,
+use crate::core::{
+    ActiveDeviceResource, CraftingFinishedEvent, InterfaceFlowSet, InterfaceSetup,
+    InventoryItemAddedEvent, InventoryItemRemovedEvent, InventoryItemTransferredEvent,
+    PlayerClosedDeviceUIEvent, PlayerClosedInventoryUIEvent, PlayerClosedUIEvent,
+    PlayerInteractButtonPressedEvent, PlayerMovedEvent, PlayerOpenedDeviceUIEvent,
+    PlayerOpenedDialogEvent, PlayerOpenedInventoryUIEvent, RequestInventoryUIPopulationEvent,
+    RequestRecipeUIPopulationEvent, Scenes, StartCraftingRequestEvent, UIState,
 };
 
 pub struct CorePlugin;
@@ -27,7 +25,8 @@ impl Plugin for CorePlugin {
             PreUpdate,
             (
                 InterfaceFlowSet::InputHook,
-                InterfaceFlowSet::EntryHook.after(InterfaceFlowSet::InputHook),
+                InterfaceFlowSet::InputBufferHook.after(InterfaceFlowSet::InputHook),
+                InterfaceFlowSet::EntryHook.after(InterfaceFlowSet::InputBufferHook),
             ),
         );
 
@@ -42,7 +41,7 @@ impl Plugin for CorePlugin {
 
         app.configure_sets(
             PostUpdate,
-            (InterfaceFlowSet::PostAfterHook.after(InterfaceFlowSet::AfterHook),),
+            InterfaceFlowSet::PostAfterHook.after(InterfaceFlowSet::AfterHook),
         );
 
         // Init Events
@@ -57,6 +56,9 @@ impl Plugin for CorePlugin {
             .add_event::<CraftingFinishedEvent>()
             .add_event::<InventoryItemAddedEvent>()
             .add_event::<InventoryItemRemovedEvent>()
-            .add_event::<InventoryItemTransferredEvent>();
+            .add_event::<InventoryItemTransferredEvent>()
+            .add_event::<PlayerInteractButtonPressedEvent>()
+            .add_event::<PlayerOpenedDialogEvent>()
+            .add_event::<PlayerClosedUIEvent>();
     }
 }

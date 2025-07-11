@@ -1,5 +1,5 @@
 use crate::{
-    actors::{CustomActorBundle, CustomerActorPlugin, PlayerBundle},
+    actors::{CustomerActorBundle, PlayerBundle},
     cameras::MainCameraBundle,
     core::{Scenes, UIState},
     devices::StoveDeviceBundle,
@@ -69,7 +69,7 @@ pub fn setup(
         ))
         .with_children(|parent| {});
 
-    commands.spawn(CustomActorBundle::default()).insert((
+    commands.spawn(CustomerActorBundle::default()).insert((
         Transform::from_xyz(5.0, 1.0, 5.0),
         Mesh3d(meshes.add(Cylinder::new(radius, height))),
         MeshMaterial3d(materials.add(StandardMaterial {

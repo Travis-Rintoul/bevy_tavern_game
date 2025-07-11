@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::core::InteractableType;
+
 #[derive(Resource, Default)]
 pub struct ActiveDeviceResource(pub Option<Entity>);
 
@@ -7,7 +9,7 @@ pub struct ActiveDeviceResource(pub Option<Entity>);
 pub struct InterfaceSetup(pub bool);
 
 #[derive(Resource)]
-struct CounterTimer {
-    timer: Timer,
-    count: u32,
+pub struct ActiveInteractable {
+    pub entity: Entity,
+    pub interactable_type: InteractableType,
 }

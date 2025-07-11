@@ -1,14 +1,12 @@
 use bevy::prelude::*;
 
-use crate::core::{
-    Customer, CustomerOrder, Inventory, ItemID, PLAYER_PROXIMITY_DIALOG_CHECK, Player,
-};
+use crate::core::{Customer, CustomerOrder, ItemID};
 
 pub struct CustomerActorPlugin;
 
 impl Plugin for CustomerActorPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Update, (set_customer_order));
+        app.add_systems(Update, set_customer_order);
     }
 }
 

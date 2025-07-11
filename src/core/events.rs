@@ -70,10 +70,18 @@ pub struct InventoryItemRemovedEvent {
 }
 
 #[derive(Event)]
-
 pub struct InventoryItemTransferredEvent {
     pub target_entity: Entity,
     pub sender_entity: Entity,
     pub item_id: ItemID,
     pub quantity: u32,
 }
+
+#[derive(Event)]
+pub struct PlayerInteractButtonPressedEvent;
+
+#[derive(Event)]
+pub struct PlayerOpenedDialogEvent;
+
+#[derive(Event)]
+pub struct PlayerClosedUIEvent;

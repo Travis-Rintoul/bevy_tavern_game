@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::{Crafting, CraftingStation, Device, StoveDevice};
+use crate::core::{Crafting, CraftingStation, Device, DeviceType, Interactable, StoveDevice};
 
 #[derive(Bundle)]
 pub struct StoveDeviceBundle {
@@ -8,6 +8,7 @@ pub struct StoveDeviceBundle {
     stove_marker: StoveDevice,
     station: CraftingStation,
     crafting: Crafting,
+    interactable: Interactable,
 }
 
 impl Default for StoveDeviceBundle {
@@ -17,6 +18,7 @@ impl Default for StoveDeviceBundle {
             stove_marker: StoveDevice::default(),
             station: CraftingStation::default(),
             crafting: Crafting::default(),
+            interactable: Interactable::device(DeviceType::Stove),
         }
     }
 }

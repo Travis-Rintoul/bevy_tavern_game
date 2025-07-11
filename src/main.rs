@@ -1,4 +1,4 @@
-#![allow(dead_code, unused)]
+//#![allow(dead_code, unused)]
 
 use crate::plugins::{
     ActorPlugin, CameraPlugin, CorePlugin, CraftingPlugin, DebugPlugin, DevicePlugin,

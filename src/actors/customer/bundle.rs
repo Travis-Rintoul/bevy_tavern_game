@@ -1,20 +1,22 @@
 use bevy::prelude::*;
 
-use crate::core::{Customer, CustomerOrder, Inventory};
+use crate::core::{Customer, CustomerOrder, Interactable, Inventory, NPCType};
 
 #[derive(Bundle)]
-pub struct CustomActorBundle {
+pub struct CustomerActorBundle {
     marker: Customer,
     inventory: Inventory,
     order: CustomerOrder,
+    interactable: Interactable,
 }
 
-impl Default for CustomActorBundle {
+impl Default for CustomerActorBundle {
     fn default() -> Self {
-        CustomActorBundle {
+        CustomerActorBundle {
             marker: Customer,
             inventory: Inventory::default(),
             order: CustomerOrder::default(),
+            interactable: Interactable::npc(NPCType::Customer),
         }
     }
 }

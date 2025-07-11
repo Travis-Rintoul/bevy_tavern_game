@@ -1,5 +1,5 @@
 mod bundle;
 mod plugin;
 
-pub use bundle::CustomActorBundle;
+pub use bundle::CustomerActorBundle;
 pub use plugin::CustomerActorPlugin;

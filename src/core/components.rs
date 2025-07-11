@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::core::{CraftingProgress, CraftingTask, ItemID, ItemStack, RecipeID};
+use crate::core::{
+    CraftingProgress, CraftingTask, DeviceType, InteractableType, ItemID, ItemStack, NPCType,
+    RecipeID,
+};
 
 #[derive(Component)]
 pub struct Player;
@@ -140,3 +143,22 @@ pub struct Customer;
 
 #[derive(Component, Default)]
 pub struct CustomerOrder(pub ItemID);
+
+#[derive(Component)]
+pub struct Interactable {
+    pub interactable_type: InteractableType,
+}
+
+impl Interactable {
+    pub fn npc(npc_type: NPCType) -> Self {
+        Interactable {
+            interactable_type: InteractableType::NPC(npc_type),
+        }
+    }
+
+    pub fn device(device_type: DeviceType) -> Self {
+        Interactable {
+            interactable_type: InteractableType::Device(device_type),
+        }
+    }
+}

@@ -10,6 +10,7 @@ pub enum SceneSystemSet {
 #[derive(SystemSet, Debug, Clone, PartialEq, Eq, Hash)]
 pub enum InterfaceFlowSet {
     InputHook,
+    InputBufferHook,
     EntryHook,
     BeforeHook,
     ActionHook,

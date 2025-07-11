@@ -1,5 +1,5 @@
 mod customer;
 mod player;
 
-pub use customer::{CustomActorBundle, CustomerActorPlugin};
+pub use customer::{CustomerActorBundle, CustomerActorPlugin};
 pub use player::{ActorPlayerPlugin, PlayerBundle};
