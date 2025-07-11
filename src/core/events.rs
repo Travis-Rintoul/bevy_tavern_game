@@ -9,6 +9,7 @@ pub struct PlayerMovedEvent;
 pub struct PlayerOpenedDeviceUIEvent {
     pub device: Entity,
     pub device_type: DeviceType,
+    pub needs_recipes: bool,
 }
 
 #[derive(Event)]
@@ -55,17 +56,24 @@ pub struct CraftingFinishedEvent {
 
 #[derive(Event)]
 pub struct InventoryItemAddedEvent {
+    pub target_entity: Entity,
     pub item_id: ItemID,
     pub quantity: u32,
     pub reason: InventoryAddReason,
 }
 
-// Event when an item is removed from inventory
-struct InventoryItemRemovedEvent {
-    // fields like item ID, quantity, etc.
+#[derive(Event)]
+pub struct InventoryItemRemovedEvent {
+    pub target_entity: Entity,
+    pub item_id: ItemID,
+    pub quantity: u32,
 }
 
-// Event when an item is transferred between inventories
-struct InventoryItemTransferredEvent {
-    // fields like source inventory, destination inventory, item ID, quantity, etc.
+#[derive(Event)]
+
+pub struct InventoryItemTransferredEvent {
+    pub target_entity: Entity,
+    pub sender_entity: Entity,
+    pub item_id: ItemID,
+    pub quantity: u32,
 }

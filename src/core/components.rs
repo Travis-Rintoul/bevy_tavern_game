@@ -50,6 +50,7 @@ pub struct Inventory {
     max_inventory_stack: u32,
 }
 
+// TODO: flesh out inventory logic
 impl Inventory {
     pub fn add_item(&mut self, item: ItemID, count: u32) {
         self.stacks.push(ItemStack::new(item, count));
@@ -57,6 +58,21 @@ impl Inventory {
 
     pub fn contains_item(&self, item: ItemID) -> bool {
         self.stacks.iter().any(|stack| stack.item_id == item)
+    }
+
+    pub fn remove_item(&mut self, item: ItemID, count: u32) {
+        let mut stack_search = self
+            .stacks
+            .iter_mut()
+            .find(|predicate| predicate.item_id == item);
+
+        match stack_search {
+            None => warn!(
+                "Inventory item not found: Unable to locate item with ID {:?}",
+                item
+            ),
+            Some(stack) => stack.item_count -= count,
+        }
     }
 }
 

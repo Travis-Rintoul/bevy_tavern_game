@@ -2,18 +2,17 @@ use bevy::prelude::*;
 
 use crate::core::{
     ALL_RECIPES, RecipeListOption, RecipeListOptionSelectedEvent, RecipeListWindow,
-    RequestRecipeUIPopulationEvent,
+    RequestRecipeListUIPopulationEvent, RequestRecipeUIPopulationEvent,
 };
 
 pub fn option_selected_observer(trigger: Trigger<RecipeListOptionSelectedEvent>) {
     let _ = trigger;
 }
 
-pub fn populate_recipe_list_window(
-    trigger: Trigger<RequestRecipeUIPopulationEvent>,
+pub fn on_populate_recipe_list_request(
+    trigger: Trigger<RequestRecipeListUIPopulationEvent>,
     mut commands: Commands,
     children_query: Query<&Children>,
-    recipe_window_query: Query<&RecipeListWindow>,
 ) {
     let target_entity = trigger.target();
 

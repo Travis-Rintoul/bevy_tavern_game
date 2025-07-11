@@ -10,41 +10,7 @@ pub struct RecipePlugin;
 
 impl Plugin for RecipePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(
-            Update,
-            (
-                handle_recipe_selected,
-                emit_recipe_window_population_request.in_set(InterfaceFlowSet::AfterHook),
-            ),
-        );
-    }
-}
-
-fn emit_recipe_window_population_request(
-    mut commands: Commands,
-    player_query: Query<Entity, With<Player>>,
-    mut events: EventReader<PlayerOpenedDeviceUIEvent>,
-    recipe_window_query: Query<(Entity, Option<&Owner>), With<RecipeListWindow>>,
-) {
-    for event in events.read() {
-        let Ok(player_entity) = player_query.single() else {
-            // TODO: make message a constant
-            panic!("Unable to find player");
-        };
-
-        for (window_entity, owner) in &recipe_window_query {
-            if let Some(Owner::Device(device_entity)) = owner {
-                if *device_entity == event.device {
-                    // Tell the UI to display the ui items
-                    commands
-                        .entity(window_entity)
-                        .trigger(RequestRecipeListUIPopulationEvent {
-                            inventory_entity: player_entity,
-                            device_type: event.device_type.clone(),
-                        });
-                }
-            }
-        }
+        app.add_systems(Update, handle_recipe_selected);
     }
 }
 

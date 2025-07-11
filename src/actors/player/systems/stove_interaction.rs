@@ -22,6 +22,7 @@ pub fn stove_interaction(
             event_writer.write(PlayerOpenedDeviceUIEvent {
                 device: stove_entity,
                 device_type: DeviceType::Stove,
+                needs_recipes: true,
             });
         }
     }

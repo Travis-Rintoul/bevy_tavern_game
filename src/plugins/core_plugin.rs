@@ -1,10 +1,14 @@
-use bevy::prelude::*;
+use bevy::{ecs::error::error, prelude::*};
 
-use crate::core::{
-    ActiveDeviceResource, CraftingFinishedEvent, InterfaceFlowSet, InterfaceSetup,
-    PlayerClosedDeviceUIEvent, PlayerClosedInventoryUIEvent, PlayerMovedEvent,
-    PlayerOpenedDeviceUIEvent, PlayerOpenedInventoryUIEvent, RequestInventoryUIPopulationEvent,
-    RequestRecipeUIPopulationEvent, Scenes, StartCraftingRequestEvent, UIState,
+use crate::{
+    core::{
+        ActiveDeviceResource, CraftingFinishedEvent, InterfaceFlowSet, InterfaceSetup,
+        InventoryItemAddedEvent, InventoryItemRemovedEvent, InventoryItemTransferredEvent,
+        PlayerClosedDeviceUIEvent, PlayerClosedInventoryUIEvent, PlayerMovedEvent,
+        PlayerOpenedDeviceUIEvent, PlayerOpenedInventoryUIEvent, RequestInventoryUIPopulationEvent,
+        RequestRecipeUIPopulationEvent, Scenes, StartCraftingRequestEvent, UIState,
+    },
+    plugins::InventoryPlugin,
 };
 
 pub struct CorePlugin;
@@ -50,6 +54,9 @@ impl Plugin for CorePlugin {
             .add_event::<RequestInventoryUIPopulationEvent>()
             .add_event::<RequestRecipeUIPopulationEvent>()
             .add_event::<StartCraftingRequestEvent>()
-            .add_event::<CraftingFinishedEvent>();
+            .add_event::<CraftingFinishedEvent>()
+            .add_event::<InventoryItemAddedEvent>()
+            .add_event::<InventoryItemRemovedEvent>()
+            .add_event::<InventoryItemTransferredEvent>();
     }
 }
