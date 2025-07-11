@@ -1,6 +1,6 @@
-use bevy::{prelude::*, render::render_resource::encase::private::RuntimeSizedArray};
+use bevy::prelude::*;
 
-use crate::core::{Crafting, CraftingStation, PlayerOpenedDeviceUIEvent};
+use crate::core::{CraftingQueue, CraftingStation, PlayerOpenedDeviceUIEvent};
 
 pub struct DebugPlugin;
 
@@ -20,16 +20,16 @@ fn listen(mut events: EventReader<PlayerOpenedDeviceUIEvent>) {
     }
 }
 
-fn listen_craft(query: Query<(&Crafting, &CraftingStation), Changed<CraftingStation>>) {
-    for (crafting, station) in query.iter() {
-        if station.queue.len() == 0 {
+fn listen_craft(query: Query<&CraftingQueue, Changed<CraftingStation>>) {
+    for crafting in query.iter() {
+        if crafting.queue.len() == 0 {
             continue;
         }
 
-        let task = &station.queue[0];
+        let task = &crafting.queue[0];
         println!(
             "Crafting {:?} => {} of remaining {}",
-            task.recipe_id, station.current_progress, task.time_required
+            task.recipe_id, crafting.current_progress, task.time_required
         );
     }
 }

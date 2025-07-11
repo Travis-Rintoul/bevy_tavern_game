@@ -22,6 +22,12 @@ pub struct PlayerOpenedInventoryUIEvent;
 pub struct PlayerClosedInventoryUIEvent;
 
 #[derive(Event)]
+pub struct PlayerOpenedCraftingStatusUIEvent;
+
+#[derive(Event)]
+pub struct PlayerClosedCraftingStatusUIEvent;
+
+#[derive(Event)]
 pub struct RequestInventoryUIPopulationEvent {
     pub window_entity: Entity,
     pub inventory_entity: Entity,
@@ -85,3 +91,6 @@ pub struct PlayerOpenedDialogEvent;
 
 #[derive(Event)]
 pub struct PlayerClosedUIEvent;
+
+#[derive(Event)]
+pub struct RequestCraftingStatusUIPopulationEvent;

@@ -1,10 +1,6 @@
-use bevy::{ecs::system::command, prelude::*};
+use bevy::prelude::*;
 
-use crate::core::{
-    InterfaceFlowSet, Owner, Player, PlayerOpenedDeviceUIEvent, RecipeID, RecipeListOption,
-    RecipeListOptionSelectedEvent, RecipeListWindow, RequestRecipeListUIPopulationEvent,
-    RequestRecipeUIPopulationEvent,
-};
+use crate::core::{RecipeListOption, RecipeListOptionSelectedEvent};
 
 pub struct RecipePlugin;
 
@@ -28,5 +24,3 @@ fn handle_recipe_selected(
         }
     }
 }
-
-fn handle_recipe_craft_request() {}

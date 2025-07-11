@@ -2,7 +2,7 @@ use bevy::prelude::*;
 
 use crate::{
     core::{
-        ActiveDeviceResource, Crafting, CraftingStation, Owner, RecipeListOptionSelectedEvent,
+        ActiveDeviceResource, CraftingQueue, CraftingStation, Owner, RecipeListOptionSelectedEvent,
         RecipeWindow, RequestRecipeUIPopulationEvent, Station, UIState,
     },
     ui::{RecipeListWindowBundle, RecipeWindowBundle},

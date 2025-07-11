@@ -1,112 +1,95 @@
-use bevy::{ecs::query, prelude::*};
+use bevy::{prelude::*, state::commands};
 
 use crate::core::{
-    ALL_RECIPES, CraftButton, Crafting, CraftingFinishedEvent, CraftingStation, CraftingTask,
-    Owner, Player, StartCraftingRequestEvent, Station,
+    ALL_RECIPES, CraftButton, CraftingFinishedEvent, CraftingQueue, CraftingStation, CraftingTask,
+    Owner, Player, StartCraftingRequestEvent, Station, find_parent_with_component,
 };
 
 pub struct CraftingPlugin;
 
 impl Plugin for CraftingPlugin {
     fn build(&self, app: &mut App) {
-        app.add_observer(handle_craft_requests);
-        app.add_systems(Update, (emit_crafting_requests, action_upon_crafting_queue));
+        app.add_observer(on_craft_request_event);
+        app.add_systems(Update, (on_craft_button_clicked, on_crafting_queue_tick));
     }
 }
 
-// listens for clicks on the CraftButton
-fn emit_crafting_requests(
+fn on_craft_button_clicked(
     mut commands: Commands,
     mut query: Query<(&Interaction, &CraftButton, Entity), Changed<Interaction>>,
-    parent_query: Query<&ChildOf>,
-    station_query: Query<Entity, With<Station>>,
-    owner_query: Query<&Owner>,
-    mut writer: EventWriter<StartCraftingRequestEvent>,
+    query_set: (Query<&ChildOf>, Query<Entity, With<Station>>, Query<&Owner>),
 ) {
     for (interaction, button, entity) in query.iter_mut() {
-        if *interaction == Interaction::Pressed {
-            if let Some(station_entity) =
-                find_parent_with_station(entity, &parent_query, &station_query)
-            {
-                if let Ok(Owner::Device(owner_entity)) = owner_query.get(station_entity) {
-                    commands
-                        .entity(*owner_entity)
-                        .trigger(StartCraftingRequestEvent {
-                            recipe_id: button.0,
-                        });
-                }
-            }
+        if *interaction != Interaction::Pressed {
+            continue;
+        }
+
+        let Some(station_entity) =
+            find_parent_with_component::<Station>(entity, &query_set.0, &query_set.1)
+        else {
+            continue;
+        };
+
+        if let Ok(Owner::Device(owner_entity)) = query_set.2.get(station_entity) {
+            commands
+                .entity(*owner_entity)
+                .trigger(StartCraftingRequestEvent {
+                    recipe_id: button.0,
+                });
         }
     }
 }
 
-fn handle_craft_requests(
-    mut trigger: Trigger<StartCraftingRequestEvent>,
-    mut query: Query<(&mut Crafting, &mut CraftingStation)>,
+fn on_craft_request_event(
+    trigger: Trigger<StartCraftingRequestEvent>,
+    mut query: Query<&mut CraftingQueue, With<CraftingStation>>,
 ) {
-    // do crafting requests
-    if let Ok((mut crafting, mut station)) = query.get_mut(trigger.target()) {
-        // TODO: add beter way of fetching recipe
-        let Some(recipe) = ALL_RECIPES
-            .iter()
-            .find(|predicate| predicate.id == trigger.event().recipe_id)
-        else {
-            panic!("unable to find recipe");
-        };
+    let Ok(mut crafting) = query.get_mut(trigger.target()) else {
+        warn!("Unable to find crafting station details and queue");
+        return;
+    };
 
-        crafting.paused = true;
-        station.queue.push(CraftingTask {
-            recipe_id: trigger.event().recipe_id,
-            time_required: recipe.cook_time,
-        });
-    }
+    let Some(recipe) = ALL_RECIPES
+        .iter()
+        .find(|predicate| predicate.id == trigger.event().recipe_id)
+    else {
+        panic!("unable to find recipe");
+    };
+
+    crafting.paused = true;
+    crafting.queue.push(CraftingTask {
+        recipe_id: trigger.event().recipe_id,
+        time_required: recipe.cook_time,
+    });
 }
 
-fn action_upon_crafting_queue(
+fn on_crafting_queue_tick(
     time: Res<Time>,
-    mut player_query: Single<Entity, With<Player>>,
-    mut query: Query<(&mut Crafting, &mut CraftingStation, Entity)>,
+    player_query: Single<Entity, With<Player>>,
+    mut query: Query<(&mut CraftingQueue, Entity), With<CraftingStation>>,
     mut events: EventWriter<CraftingFinishedEvent>,
 ) {
-    for (mut crafting, mut station, station_entity) in &mut query {
-        if station.queue.len() == 0 {
+    for (mut crafting, station_entity) in &mut query {
+        if crafting.queue.len() == 0 {
             continue;
         }
 
         if crafting.timer.tick(time.delta()).just_finished() {
-            station.current_progress += 1.0;
+            crafting.current_progress += 1.0;
 
-            if station.current_progress > station.queue[0].time_required {
+            if crafting.current_progress > crafting.queue[0].time_required {
                 events.write(CraftingFinishedEvent {
-                    recipe_id: station.queue[0].recipe_id,
+                    recipe_id: crafting.queue[0].recipe_id,
                     station_entity: *player_query,
                 });
 
-                station.queue.remove(0);
-                station.current_progress = 0.0;
+                crafting.queue.remove(0);
+                crafting.current_progress = 0.0;
 
-                if station.queue.len() == 0 {
+                if crafting.queue.len() == 0 {
                     crafting.paused = true;
                 }
             }
-        }
-    }
-}
-
-fn find_parent_with_station(
-    mut current: Entity,
-    parent_query: &Query<&ChildOf>,
-    station_query: &Query<Entity, With<Station>>,
-) -> Option<Entity> {
-    loop {
-        if station_query.get(current).is_ok() {
-            return Some(current);
-        }
-
-        if let Ok(parent) = parent_query.get(current) {
-            current = parent.0;
-        } else {
-            return None;
         }
     }
 }

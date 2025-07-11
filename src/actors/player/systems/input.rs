@@ -3,7 +3,7 @@ use bevy::prelude::*;
 use crate::core::{
     PLAYER_MOVEMENT_SPEED, Player, PlayerClosedDeviceUIEvent, PlayerClosedInventoryUIEvent,
     PlayerClosedUIEvent, PlayerInteractButtonPressedEvent, PlayerMovedEvent,
-    PlayerOpenedInventoryUIEvent, UIState,
+    PlayerOpenedCraftingStatusUIEvent, PlayerOpenedInventoryUIEvent, UIState,
 };
 
 pub fn on_player_movement_input(
@@ -37,6 +37,7 @@ pub fn on_player_interaction_input(
     mut player_interact_event: EventWriter<PlayerInteractButtonPressedEvent>,
     mut inventory_open_event: EventWriter<PlayerOpenedInventoryUIEvent>,
     mut closed_ui_event: EventWriter<PlayerClosedDeviceUIEvent>,
+    mut craft_status_ui_event: EventWriter<PlayerOpenedCraftingStatusUIEvent>,
 ) {
     if button.just_pressed(KeyCode::KeyF) {
         player_interact_event.write(PlayerInteractButtonPressedEvent);
@@ -44,6 +45,10 @@ pub fn on_player_interaction_input(
 
     if button.just_pressed(KeyCode::KeyI) {
         inventory_open_event.write(PlayerOpenedInventoryUIEvent);
+    }
+
+    if button.just_pressed(KeyCode::KeyC) {
+        craft_status_ui_event.write(PlayerOpenedCraftingStatusUIEvent);
     }
 
     if button.just_pressed(KeyCode::Escape) {

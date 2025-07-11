@@ -15,4 +15,5 @@ pub enum UIState {
     Dialog,
     Inventory,
     DeviceStove,
+    CraftingStatus,
 }

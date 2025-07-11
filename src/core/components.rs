@@ -112,10 +112,7 @@ pub struct RecipeWindow;
 pub struct RecipeListOption(pub RecipeID);
 
 #[derive(Component, Default)]
-pub struct CraftingStation {
-    pub queue: Vec<CraftingTask>,
-    pub current_progress: f32,
-}
+pub struct CraftingStation;
 
 #[derive(Component, Default)]
 pub struct Station;
@@ -124,16 +121,20 @@ pub struct Station;
 pub struct CraftButton(pub RecipeID);
 
 #[derive(Component)]
-pub struct Crafting {
+pub struct CraftingQueue {
     pub timer: Timer,
     pub paused: bool,
+    pub queue: Vec<CraftingTask>,
+    pub current_progress: f32,
 }
 
-impl Default for Crafting {
+impl Default for CraftingQueue {
     fn default() -> Self {
-        Crafting {
+        CraftingQueue {
             timer: Timer::from_seconds(1.0, TimerMode::Repeating),
             paused: true,
+            queue: Vec::default(),
+            current_progress: f32::default(),
         }
     }
 }
@@ -160,5 +161,16 @@ impl Interactable {
         Interactable {
             interactable_type: InteractableType::Device(device_type),
         }
+    }
+}
+
+#[derive(Component, Default)]
+pub struct CraftingStatusWindow {
+    owner: Owner,
+}
+
+impl CraftingStatusWindow {
+    pub fn new(owner: Owner) {
+        CraftingStatusWindow { owner: owner };
     }
 }

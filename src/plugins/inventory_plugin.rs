@@ -1,12 +1,7 @@
-use bevy::{
-    ecs::{event, query::QuerySingleError},
-    prelude::*,
-};
-use bevy_inspector_egui::inspector_options::Target;
+use bevy::prelude::*;
 
 use crate::core::{
-    ALL_RECIPES, CraftingFinishedEvent, Inventory, InventoryItemAddedEvent,
-    InventoryItemRemovedEvent, InventoryItemTransferredEvent,
+    Inventory, InventoryItemAddedEvent, InventoryItemRemovedEvent, InventoryItemTransferredEvent,
 };
 
 pub struct InventoryPlugin;
