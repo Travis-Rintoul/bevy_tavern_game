@@ -1,6 +1,6 @@
 use bevy::{prelude::*, render::render_resource::encase::private::RuntimeSizedArray};
 
-use crate::core::{Crafting, CraftingStation, PlayerOpenedDeviceInterfaceEvent};
+use crate::core::{Crafting, CraftingStation, PlayerOpenedDeviceUIEvent};
 
 pub struct DebugPlugin;
 
@@ -11,7 +11,7 @@ impl Plugin for DebugPlugin {
     }
 }
 
-fn listen(mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>) {
+fn listen(mut events: EventReader<PlayerOpenedDeviceUIEvent>) {
     for e in events.read() {
         println!(
             "Player Opened device interface {} {:?}",

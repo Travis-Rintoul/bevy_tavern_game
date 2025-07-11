@@ -1,11 +1,10 @@
 use bevy::prelude::*;
 
 use crate::core::{
-    ActiveDeviceResource, CraftingStationFinishedCraftingRequest,
-    CraftingStationStartCraftingRequest, InterfaceFlowSet, InterfaceSetup,
-    InventoryWindowPopulationRequestEvent, PlayerClosedDeviceInterfaceEvent,
-    PlayerClosedInventoryScreenEvent, PlayerMovedEvent, PlayerOpenInventoryScreenEvent,
-    PlayerOpenedDeviceInterfaceEvent, RecipeWindowPopulationRequestEvent, Scenes, UIState,
+    ActiveDeviceResource, CraftingFinishedEvent, InterfaceFlowSet, InterfaceSetup,
+    PlayerClosedDeviceUIEvent, PlayerClosedInventoryUIEvent, PlayerMovedEvent,
+    PlayerOpenedDeviceUIEvent, PlayerOpenedInventoryUIEvent, RequestInventoryUIPopulationEvent,
+    RequestRecipeUIPopulationEvent, Scenes, StartCraftingRequestEvent, UIState,
 };
 
 pub struct CorePlugin;
@@ -44,13 +43,13 @@ impl Plugin for CorePlugin {
 
         // Init Events
         app.add_event::<PlayerMovedEvent>()
-            .add_event::<PlayerOpenedDeviceInterfaceEvent>()
-            .add_event::<PlayerClosedDeviceInterfaceEvent>()
-            .add_event::<PlayerOpenInventoryScreenEvent>()
-            .add_event::<PlayerClosedInventoryScreenEvent>()
-            .add_event::<InventoryWindowPopulationRequestEvent>()
-            .add_event::<RecipeWindowPopulationRequestEvent>()
-            .add_event::<CraftingStationStartCraftingRequest>()
-            .add_event::<CraftingStationFinishedCraftingRequest>();
+            .add_event::<PlayerOpenedDeviceUIEvent>()
+            .add_event::<PlayerClosedDeviceUIEvent>()
+            .add_event::<PlayerOpenedInventoryUIEvent>()
+            .add_event::<PlayerClosedInventoryUIEvent>()
+            .add_event::<RequestInventoryUIPopulationEvent>()
+            .add_event::<RequestRecipeUIPopulationEvent>()
+            .add_event::<StartCraftingRequestEvent>()
+            .add_event::<CraftingFinishedEvent>();
     }
 }

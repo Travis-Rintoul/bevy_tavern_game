@@ -2,9 +2,9 @@ use bevy::{prelude::*, state::state_scoped::clear_state_scoped_entities};
 
 use crate::{
     core::{
-        InterfaceFlowSet, InterfaceSetup, InventoryWindow, InventoryWindowPopulationRequestEvent,
-        Owner, Player, PlayerOpenInventoryScreenEvent, UIState, clear_interface_setup,
-        set_interface_setup,
+        InterfaceFlowSet, InterfaceSetup, InventoryWindow, Owner, Player,
+        PlayerOpenedInventoryUIEvent, RequestInventoryUIPopulationEvent, UIState,
+        clear_interface_setup, set_interface_setup,
     },
     ui::InventoryWindowBundle,
 };
@@ -49,7 +49,7 @@ fn setup(mut commands: Commands) {
 fn emit_inventory_window_population_request(
     mut commands: Commands,
     player_query: Query<Entity, With<Player>>,
-    mut events: EventReader<PlayerOpenInventoryScreenEvent>,
+    mut events: EventReader<PlayerOpenedInventoryUIEvent>,
     inventory_window_query: Query<(Entity, Option<&Owner>), With<InventoryWindow>>,
 ) {
     for _ in events.read() {
@@ -63,7 +63,7 @@ fn emit_inventory_window_population_request(
                 // Tell the UI to display the ui items
                 commands
                     .entity(window_entity)
-                    .trigger(InventoryWindowPopulationRequestEvent {
+                    .trigger(RequestInventoryUIPopulationEvent {
                         window_entity: window_entity,
                         inventory_entity: player_entity,
                     });

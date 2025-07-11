@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    core::{ActiveDeviceResource, InterfaceFlowSet, PlayerOpenedDeviceInterfaceEvent},
+    core::{ActiveDeviceResource, InterfaceFlowSet, PlayerOpenedDeviceUIEvent},
     devices::StoveDevicePlugin,
 };
 
@@ -19,7 +19,7 @@ impl Plugin for DevicePlugin {
 
 fn update_active_device_resource(
     mut active_device: ResMut<ActiveDeviceResource>,
-    mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>,
+    mut events: EventReader<PlayerOpenedDeviceUIEvent>,
 ) {
     for event in events.read() {
         active_device.0 = Some(event.device);

@@ -1,39 +1,19 @@
 use bevy::{ecs::event, prelude::*};
 
-use crate::core::{ALL_RECIPES, CraftingStationFinishedCraftingRequest, Inventory};
+use crate::core::{ALL_RECIPES, CraftingFinishedEvent, Inventory, InventoryItemAddedEvent};
 
 pub struct InventoryPlugin;
 
 impl Plugin for InventoryPlugin {
-    fn build(&self, app: &mut App) {
-        app.add_systems(Update, handle_craft_task_finish);
-    }
+    fn build(&self, app: &mut App) {}
 }
 
-// Add item to inventory of crafting station
-fn handle_craft_task_finish(
-    mut inventory_query: Query<&mut Inventory>,
-    mut events: EventReader<CraftingStationFinishedCraftingRequest>,
+fn on_add_inventory_item_event(
+    mut events: EventReader<InventoryItemAddedEvent>,
+    inventory_query: Query<&mut Inventory>,
 ) {
-    for event in events.read() {
-        let Ok(mut inventory) = inventory_query.get_mut(event.station_entity) else {
-            continue;
-        };
-
-        // TODO: implement better recipe fetch
-        let Some(recipe) = ALL_RECIPES
-            .iter()
-            .find(|predicate| predicate.id == event.recipe_id)
-        else {
-            // TODO: handle error
-            panic!("recipe not found");
-        };
-
-        inventory.add_item(recipe.output_item, 1);
-
-        println!(
-            "Added {} ({}) to {}'s inventory",
-            recipe.output_item, 1, event.station_entity
-        );
-    }
 }
+
+fn on_remove_inventory_item_event() {}
+
+fn on_transfer_inventory_item_event() {}

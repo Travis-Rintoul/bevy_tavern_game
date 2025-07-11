@@ -1,8 +1,8 @@
 use bevy::{ecs::query, prelude::*};
 
 use crate::core::{
-    ALL_RECIPES, CraftButton, Crafting, CraftingStation, CraftingStationFinishedCraftingRequest,
-    CraftingStationStartCraftingRequest, CraftingTask, Owner, Player, Station,
+    ALL_RECIPES, CraftButton, Crafting, CraftingFinishedEvent, CraftingStation, CraftingTask,
+    Owner, Player, StartCraftingRequestEvent, Station,
 };
 
 pub struct CraftingPlugin;
@@ -21,7 +21,7 @@ fn emit_crafting_requests(
     parent_query: Query<&ChildOf>,
     station_query: Query<Entity, With<Station>>,
     owner_query: Query<&Owner>,
-    mut writer: EventWriter<CraftingStationStartCraftingRequest>,
+    mut writer: EventWriter<StartCraftingRequestEvent>,
 ) {
     for (interaction, button, entity) in query.iter_mut() {
         if *interaction == Interaction::Pressed {
@@ -31,7 +31,7 @@ fn emit_crafting_requests(
                 if let Ok(Owner::Device(owner_entity)) = owner_query.get(station_entity) {
                     commands
                         .entity(*owner_entity)
-                        .trigger(CraftingStationStartCraftingRequest {
+                        .trigger(StartCraftingRequestEvent {
                             recipe_id: button.0,
                         });
                 }
@@ -41,7 +41,7 @@ fn emit_crafting_requests(
 }
 
 fn handle_craft_requests(
-    mut trigger: Trigger<CraftingStationStartCraftingRequest>,
+    mut trigger: Trigger<StartCraftingRequestEvent>,
     mut query: Query<(&mut Crafting, &mut CraftingStation)>,
 ) {
     // do crafting requests
@@ -66,7 +66,7 @@ fn action_upon_crafting_queue(
     time: Res<Time>,
     mut player_query: Single<Entity, With<Player>>,
     mut query: Query<(&mut Crafting, &mut CraftingStation, Entity)>,
-    mut events: EventWriter<CraftingStationFinishedCraftingRequest>,
+    mut events: EventWriter<CraftingFinishedEvent>,
 ) {
     for (mut crafting, mut station, station_entity) in &mut query {
         if station.queue.len() == 0 {
@@ -77,7 +77,7 @@ fn action_upon_crafting_queue(
             station.current_progress += 1.0;
 
             if station.current_progress > station.queue[0].time_required {
-                events.write(CraftingStationFinishedCraftingRequest {
+                events.write(CraftingFinishedEvent {
                     recipe_id: station.queue[0].recipe_id,
                     station_entity: *player_query,
                 });

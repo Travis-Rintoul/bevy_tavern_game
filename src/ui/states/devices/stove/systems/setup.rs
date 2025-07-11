@@ -2,8 +2,8 @@ use bevy::prelude::*;
 
 use crate::{
     core::{
-        ActiveDeviceResource, Crafting, CraftingStation, Owner, RecipeListWindowOptionSelected,
-        RecipeWindow, RecipeWindowPopulationRequestEvent, Station, UIState,
+        ActiveDeviceResource, Crafting, CraftingStation, Owner, RecipeListOptionSelectedEvent,
+        RecipeWindow, RequestRecipeUIPopulationEvent, Station, UIState,
     },
     ui::{RecipeListWindowBundle, RecipeWindowBundle},
 };
@@ -55,7 +55,7 @@ pub fn setup(mut commands: Commands, active_device: Res<ActiveDeviceResource>) {
 }
 
 fn show_selected_recipe(
-    trigger: Trigger<RecipeListWindowOptionSelected>,
+    trigger: Trigger<RecipeListOptionSelectedEvent>,
     mut commands: Commands,
     parent_query: Query<&ChildOf>,
     sibling_query: Query<&Children>,
@@ -77,7 +77,7 @@ fn show_selected_recipe(
         if recipe_window_query.get(child_entity).is_ok() {
             commands
                 .entity(child_entity)
-                .trigger(RecipeWindowPopulationRequestEvent {
+                .trigger(RequestRecipeUIPopulationEvent {
                     recipe_id: trigger.event().recipe_id,
                 });
         }

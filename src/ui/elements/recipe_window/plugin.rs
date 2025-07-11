@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::core::{ALL_RECIPES, CraftButton, RecipeWindowPopulationRequestEvent};
+use crate::core::{ALL_RECIPES, CraftButton, RequestRecipeUIPopulationEvent};
 
 pub struct RecipeWindowUIElementPlugin;
 
@@ -11,7 +11,7 @@ impl Plugin for RecipeWindowUIElementPlugin {
 }
 
 fn populate_recipe_window(
-    trigger: Trigger<RecipeWindowPopulationRequestEvent>,
+    trigger: Trigger<RequestRecipeUIPopulationEvent>,
     mut commands: Commands,
     children_query: Query<&Children>,
 ) {

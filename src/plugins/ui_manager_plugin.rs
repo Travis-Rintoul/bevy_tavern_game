@@ -2,9 +2,9 @@ use bevy::prelude::*;
 
 use crate::{
     core::{
-        DeviceType, InterfaceFlowSet, PLAYER_DEFAULT_UI_STATE, PlayerClosedDeviceInterfaceEvent,
-        PlayerClosedInventoryScreenEvent, PlayerOpenInventoryScreenEvent,
-        PlayerOpenedDeviceInterfaceEvent, UIState,
+        DeviceType, InterfaceFlowSet, PLAYER_DEFAULT_UI_STATE, PlayerClosedDeviceUIEvent,
+        PlayerClosedInventoryUIEvent, PlayerOpenedDeviceUIEvent, PlayerOpenedInventoryUIEvent,
+        UIState,
     },
     plugins::UIElementsPlugin,
     ui::{ExplorationUIPlugin, InventroyUIPlugin, StoveDeviceUIPlugin},
@@ -36,7 +36,7 @@ impl Plugin for UIPlugin {
 
 fn handle_device_open_event(
     mut ui_state: ResMut<NextState<UIState>>,
-    mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>,
+    mut events: EventReader<PlayerOpenedDeviceUIEvent>,
 ) {
     for event in events.read() {
         match event.device_type {
@@ -47,7 +47,7 @@ fn handle_device_open_event(
 
 fn handle_device_closed_event(
     mut ui_state: ResMut<NextState<UIState>>,
-    mut events: EventReader<PlayerClosedDeviceInterfaceEvent>,
+    mut events: EventReader<PlayerClosedDeviceUIEvent>,
 ) {
     for _ in events.read() {
         ui_state.set(PLAYER_DEFAULT_UI_STATE)
@@ -56,7 +56,7 @@ fn handle_device_closed_event(
 
 fn handle_inventory_opened_event(
     mut ui_state: ResMut<NextState<UIState>>,
-    mut events: EventReader<PlayerOpenInventoryScreenEvent>,
+    mut events: EventReader<PlayerOpenedInventoryUIEvent>,
 ) {
     for _ in events.read() {
         println!("2");
@@ -66,7 +66,7 @@ fn handle_inventory_opened_event(
 
 fn handle_inventory_closed_event(
     mut ui_state: ResMut<NextState<UIState>>,
-    mut events: EventReader<PlayerClosedInventoryScreenEvent>,
+    mut events: EventReader<PlayerClosedInventoryUIEvent>,
 ) {
     for _ in events.read() {
         ui_state.set(PLAYER_DEFAULT_UI_STATE)

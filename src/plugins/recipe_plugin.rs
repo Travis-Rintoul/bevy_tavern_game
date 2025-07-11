@@ -1,9 +1,9 @@
 use bevy::{ecs::system::command, prelude::*};
 
 use crate::core::{
-    InterfaceFlowSet, Owner, Player, PlayerOpenedDeviceInterfaceEvent, RecipeID, RecipeListOption,
-    RecipeListWindow, RecipeListWindowOptionSelected, RecipeListWindowPopulationRequestEvent,
-    RecipeWindowPopulationRequestEvent,
+    InterfaceFlowSet, Owner, Player, PlayerOpenedDeviceUIEvent, RecipeID, RecipeListOption,
+    RecipeListOptionSelectedEvent, RecipeListWindow, RequestRecipeListUIPopulationEvent,
+    RequestRecipeUIPopulationEvent,
 };
 
 pub struct RecipePlugin;
@@ -23,7 +23,7 @@ impl Plugin for RecipePlugin {
 fn emit_recipe_window_population_request(
     mut commands: Commands,
     player_query: Query<Entity, With<Player>>,
-    mut events: EventReader<PlayerOpenedDeviceInterfaceEvent>,
+    mut events: EventReader<PlayerOpenedDeviceUIEvent>,
     recipe_window_query: Query<(Entity, Option<&Owner>), With<RecipeListWindow>>,
 ) {
     for event in events.read() {
@@ -36,12 +36,12 @@ fn emit_recipe_window_population_request(
             if let Some(Owner::Device(device_entity)) = owner {
                 if *device_entity == event.device {
                     // Tell the UI to display the ui items
-                    commands.entity(window_entity).trigger(
-                        RecipeListWindowPopulationRequestEvent {
+                    commands
+                        .entity(window_entity)
+                        .trigger(RequestRecipeListUIPopulationEvent {
                             inventory_entity: player_entity,
                             device_type: event.device_type.clone(),
-                        },
-                    );
+                        });
                 }
             }
         }
@@ -56,7 +56,7 @@ fn handle_recipe_selected(
         if *interaction == Interaction::Pressed {
             commands
                 .entity(parent.0)
-                .trigger(RecipeListWindowOptionSelected {
+                .trigger(RecipeListOptionSelectedEvent {
                     recipe_id: button_data.0,
                 });
         }

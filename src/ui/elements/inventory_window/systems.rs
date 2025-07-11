@@ -1,12 +1,12 @@
 use bevy::{color::palettes::css::GOLD, prelude::*};
 
 use crate::{
-    core::{Inventory, InventoryWindow, InventoryWindowPopulationRequestEvent},
+    core::{Inventory, InventoryWindow, RequestInventoryUIPopulationEvent},
     ui::InventoryItemWindowBundle,
 };
 
 pub fn populate_inventory_window(
-    trigger: Trigger<InventoryWindowPopulationRequestEvent>,
+    trigger: Trigger<RequestInventoryUIPopulationEvent>,
     mut commands: Commands,
     children_query: Query<&Children>,
     inventory_query: Query<&Inventory>,

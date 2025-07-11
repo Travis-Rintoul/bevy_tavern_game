@@ -129,3 +129,8 @@ pub enum RecipeID {
     GrilledFish,
     FishStew,
 }
+
+pub enum InventoryAddReason {
+    None,
+    Crafted,
+}
